@@ -50,15 +50,18 @@ root.geometry(f'{app_width}x{app_height}+{int(x)}+{int(y)}')
 root.resizable(0, 0)
 try:
 	root.iconbitmap('.ico\\sms.ico')
-except Exception as e:
-	print(e)
+except:
+	root.iconbitmap('sms.ico')
+# except Exception as e:
+# 	print(e)
 
+#------- Initial Variable Declaration -------#
 var = IntVar()
 checkvar = IntVar()
 setvar = IntVar()
-hour=StringVar()
-minute=StringVar()
-second=StringVar()
+hour = StringVar()
+minute = StringVar()
+second = StringVar()
 
 #------- Limit Check Function -------#
 def limitSizeHour(*args):
@@ -86,7 +89,7 @@ def limitSizeMinute(*args):
 	elif int(value) > 59:
 		minute.set(value[:-2])
 		info_msg('Warning', 'Put value between 0-59!')
-	
+
 def limitSizeSecond(*args):
 	value = second.get()
 	if len(value) > 2:
@@ -243,7 +246,7 @@ def schedule_progress():
 				select_menu.grid_forget()
 				set_timer_btn.grid_forget()
 				contact_list.grid_forget()
-				
+
 				selection_btn.config(text='Stop Schedule', command=stop_timer)
 				selection_btn.grid(row=2, column=0, pady=(10, 0))
 				settings_button.config(state=DISABLED)
@@ -254,7 +257,7 @@ def schedule_progress():
 				secondEntry.config(state='readonly')
 				country_code.config(state='readonly')
 				text_message.config(state=DISABLED)
-				
+
 				mins,secs = divmod(temp,60)
 				hours=0
 				if mins >60:
@@ -384,7 +387,7 @@ def config():
 	def top_destroy():
 		top.destroy()
 		settings_button['state'] = 'normal'
-	
+
 	top.protocol("WM_DELETE_WINDOW", top_destroy)
 
 	#------- Loading Configuration -------#
@@ -416,7 +419,7 @@ def config():
 		sender_label = Label(top, text='Sender Number', font=(font_style, 11, "normal"))
 		v3 = StringVar(top, value=sender_data)
 		sender_config = Entry(top, textvariable=v3, width=35, font=(font_style, 11, "normal"), borderwidth=0, highlightbackground=highlight_background_color, highlightcolor= highlight_color, highlightthickness=1)
-		
+
 		alpha_label = Label(top, text='Alphanumeric Code', font=(font_style, 11, "normal"))
 		v3 = StringVar(top, value=alpha_data)
 		alpha_config = Entry(top, textvariable=v3, width=35, font=(font_style, 11, "normal"), borderwidth=0, highlightbackground=highlight_background_color, highlightcolor= highlight_color, highlightthickness=1)
@@ -475,7 +478,7 @@ def config():
 				}
 				with open(twilio_database, 'w') as f:
 					json.dump(data, f, indent=4)
-					
+
 				response = info_msg("Info", "Successfully Saved!")
 				if response == None:
 					top.destroy()
@@ -517,7 +520,7 @@ def config():
 			json.dump(data, f, indent=4)
 
 		loading_configuration()
-	
+
 	#------- Saving The Configuration -------#
 	def save():
 		saving_configuration()
@@ -676,11 +679,11 @@ def openDialogBox():
 									else:
 										send_failed = send_failed + 1
 										total_send_failed = send_failed
-						
+
 										data = [i]
 										writer = csv.writer(failed_file)
 										writer.writerow(data)
-											
+
 										failed_status_log(f'{full_phone_number} - Failed to send {send_failed} contact(s)\n')
 								except ConnectionError:
 									country_code.config(state=NORMAL)
@@ -692,7 +695,7 @@ def openDialogBox():
 									text_message.config(state=NORMAL)
 									info_msg('Error', 'Application is facing some issues. Contact with the developer!')
 									running = False
-								
+
 								progress_stop()
 							if running == False:
 								progress_stop_btn.place_forget()
@@ -713,7 +716,7 @@ def openDialogBox():
 							restart_btn.place(x=120, y=550)
 							restart_btn.bind("<Enter>", on_enter)
 							restart_btn.bind("<Leave>", on_leave)
-						
+
 						if os.path.exists(f'{path}\\status.log'):
 							os.remove(f'{path}\\status.log')
 						if os.path.exists(f'{path}\\failed {file_name}.csv'):
@@ -723,10 +726,10 @@ def openDialogBox():
 									os.remove(f'{path}\\failed {file_name}.csv')
 							except UnboundLocalError:
 								pass
-					
+
 				except ValueError:
 					info_msg('Error', 'Please select phone number column!')
-		
+
 		#------- List Menu -------#
 		global select_menu
 		select_menu = ttk.Combobox(frame1, state="readonly", value=options, width=19, font=(font_style, 11, "normal"))
@@ -761,7 +764,7 @@ def openDialogBox():
 				csv_list.iconbitmap('.ico\\sms.ico')
 			except Exception as e:
 				print(e)
-			
+
 			data = pd.read_csv(root.filename)
 			data_dict = data.to_dict('list')
 			options = []
@@ -791,7 +794,7 @@ def openDialogBox():
 		contact_list.bind("<Leave>", on_leave)
 
 		set_timer_btn.grid(row=4, column=0)
-	
+
 	except FileNotFoundError:
 		pass
 	except EmptyDataError:
