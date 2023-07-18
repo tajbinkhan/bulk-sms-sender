@@ -380,8 +380,8 @@ def config():
 	top.grab_release()
 	try:
 		top.iconbitmap('.ico\\sms.ico')
-	except Exception as e:
-		print(e)
+	except:
+		top.iconbitmap('sms.ico')
 
 	settings_button['state'] = 'disable'
 	def top_destroy():
